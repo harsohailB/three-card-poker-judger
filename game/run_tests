@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import subprocess
+
+class bcolors:
+    OKGREEN = '\033[92m'
+    FAIL = '\033[91m'
+
+def error_print(s):
+    print(bcolors.FAIL + s)
+
+def success_print(s):
+    print(bcolors.OKGREEN + s)
+
+def is_number(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+if len(sys.argv) < 2:
+    raise ValueError('run_tests requires an argument (the command to run your solution)')
+
+for file_num in sorted(os.listdir('tests/')):
+    try:
+        if not is_number(file_num):
+            continue
+        test_contents = open('tests/' + file_num, 'r').read()
+        test_contents = test_contents.split("\n\n")
+        (name, inp, out) = (test_contents[0], test_contents[1], test_contents[2].strip())
+
+        try:
+            output = subprocess.check_output(sys.argv[1].split(), universal_newlines=True, input=inp).strip()
+
+            correct = output == out
+            if correct:
+                success_print("Test #" + file_num + " passed (" + name + ")\n")
+            else:
+                error_print("Test #" + file_num + " failed (" + name + ")\n")
+                error_print("  Expected: " + out + "\n")
+                error_print("  Got     : " + output + "\n")
+        except OSError:
+            raise ValueError('the argument passed to run_tests must be a runnable command')
+        except subprocess.CalledProcessError as err:
+            print(err)
+            error_print("Test #" + file_num + " failed ERRORED (" + name + ")\n")
+
+    except IOError:
+        ()
