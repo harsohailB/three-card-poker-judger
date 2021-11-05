@@ -12,8 +12,10 @@ def main():
         else:
             players_info.append(input.strip())
 
-    game = Game(Deck(), num_players, players_info)
+    game = Game(num_players, players_info)
+    
     print(game)
+    print(game.calculate_winner())
 
 if __name__ == "__main__":
     main()
