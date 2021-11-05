@@ -32,7 +32,7 @@ class Game:
 
     def calculate_winners(self):
         if(self.num_players == 1):
-            return [self.players[0].id]
+            return [self.players[0]]
 
         winners = [self.players[0]]
 
@@ -46,7 +46,7 @@ class Game:
                 winners.append(curr_player)
             # if curr winner has better hand, simply proceed to check next player
         
-        return [player.id for player in winners]
+        return winners
 
     def compare_players(self, first_player, second_player):
         if first_player.hand.value > second_player.hand.value:
@@ -63,10 +63,6 @@ class Game:
         is_pairs = first_player.hand == Hand.PAIR
         first_player_card_vals = first_player.get_card_values_for_high_card()
         second_player_card_vals = second_player.get_card_values_for_high_card()
-
-        if is_pairs: # use pair high rules
-            first_player_card_vals = list(set(first_player_card_vals))
-            second_player_card_vals = list(set(second_player_card_vals))
 
         for i in range(len(first_player_card_vals)):
             first_val, second_val = first_player_card_vals[i], second_player_card_vals[i]

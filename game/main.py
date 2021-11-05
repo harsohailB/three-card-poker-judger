@@ -16,7 +16,7 @@ def main():
 
     winners = game.calculate_winners()
 
-    print(' '.join(winners))
+    print(' '.join([winner.id for winner in winners]))
 
 if __name__ == "__main__":
     main()

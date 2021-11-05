@@ -21,22 +21,9 @@ class Player:
             self.hand = Hand.THREE_OF_A_KIND
             return
 
-        # Check for flush
-        is_flush = False
-        card_suits_freq = Counter([card.suit for card in cards])
-        num_cards_same_suit = card_suits_freq[max(card_suits_freq, key=card_suits_freq.get)]
-        if num_cards_same_suit == 3: 
-            is_flush = True
+        is_flush = self.check_flush(cards)
+        is_straight = self.check_straight(cards)
         
-        # Check for straight
-        is_straight = True
-        card_values = self.get_card_values_for_straight()
-        for i in range(len(card_values) - 1):
-            curr_rank, next_rank = card_values[i], card_values[i + 1]
-            if curr_rank == 13 and next_rank == 1: continue
-            if abs(next_rank - curr_rank) != 1:
-                is_straight = False
-
         if is_flush and is_straight:
             self.hand = Hand.STRAIGHT_FLUSH
         elif is_flush:
@@ -46,8 +33,31 @@ class Player:
         else:
             self.hand = Hand.HIGH_CARD
 
-    def get_card_values_for_straight(self):
-        return sorted([card.value for card in self.cards], reverse=True)
+    def check_straight(self, cards):
+        possibilites = self.get_card_values_for_straight(cards)
+        is_straights = []
+        for card_values in possibilites:
+            for i in range(len(card_values) - 1):
+                curr_rank, next_rank = card_values[i], card_values[i + 1]
+                if abs(next_rank - curr_rank) != 1:
+                    is_straights.append(False)
+                    
+        return len(is_straights) < len(possibilites)
+
+    def check_flush(self, cards):
+        card_suits_freq = Counter([card.suit for card in cards])
+        num_cards_same_suit = card_suits_freq[max(card_suits_freq, key=card_suits_freq.get)]
+        if num_cards_same_suit == 3: 
+            return True
+        return False
+
+    def get_card_values_for_straight(self, cards):
+        # Possiblies for A usage on both sides
+        possibilites = [sorted([card.value for card in cards], reverse=True)]
+        if 1 in possibilites[0]:
+            possibilites.append(sorted([card.value if card.value != 1 else 14 for card in cards], reverse=True))
+        return possibilites
+
 
     def get_card_values_for_high_card(self):
         return sorted([card.value if card.value != 1 else 14 for card in self.cards], reverse=True)
