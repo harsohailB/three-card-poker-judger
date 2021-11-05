@@ -73,7 +73,6 @@ class Game:
             
         return None
 
-
     def __str__(self):
         output = "----------\n"
         output += f"Number of players: {self.num_players}\n"
