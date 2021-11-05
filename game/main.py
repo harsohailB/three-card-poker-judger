@@ -13,7 +13,7 @@ def main():
             players_info.append(input.strip())
 
     game = Game(num_players, players_info)
-    print(game)
+
     winners = game.calculate_winners()
 
     print(' '.join(winners))

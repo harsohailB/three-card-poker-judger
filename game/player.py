@@ -30,7 +30,7 @@ class Player:
         
         # Check for straight
         is_straight = True
-        card_values = sorted([card.value for card in cards], reverse=True)
+        card_values = self.get_card_values_for_straight()
         for i in range(len(card_values) - 1):
             curr_rank, next_rank = card_values[i], card_values[i + 1]
             if curr_rank == 13 and next_rank == 1: continue
@@ -45,6 +45,12 @@ class Player:
             self.hand = Hand.STRAIGHT
         else:
             self.hand = Hand.HIGH_CARD
+
+    def get_card_values_for_straight(self):
+        return sorted([card.value for card in self.cards], reverse=True)
+
+    def get_card_values_for_high_card(self):
+        return sorted([card.value if card.value != 1 else 14 for card in self.cards], reverse=True)
 
     def __str__(self):
         return f"{self.id} - {' '.join([str(card) for card in self.cards])} - {self.hand}"
