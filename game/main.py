@@ -13,9 +13,10 @@ def main():
             players_info.append(input.strip())
 
     game = Game(num_players, players_info)
-    
     print(game)
-    print(game.calculate_winner())
+    winners = game.calculate_winners()
+
+    print(' '.join(winners))
 
 if __name__ == "__main__":
     main()

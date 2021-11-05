@@ -1,4 +1,5 @@
-from card import Card
+from deck import Deck
+from hand import Hand
 from player import Player
 
 
@@ -16,17 +17,17 @@ class Game:
         for player_input in player_inputs:
             player_info = player_input.split(' ')
             player_cards_info = player_info[1:]
-            player_id = int(player_info[0])
+            player_id = player_info[0]
 
             cards = []
             for card_string in player_cards_info:
-                cards.append(self.deck.get_card(card_string))
+                cards.append(Deck.get_card(card_string))
 
             players.append(Player(player_id, cards))
 
         return players
 
-    def calculate_winner(self):
+    def calculate_winners(self):
         winners = [self.players[0]]
 
         for i in range(1, len(self.players)):
@@ -38,14 +39,24 @@ class Game:
             elif result == 0: # tie between curr player and curr winner
                 winners.append(curr_player)
             # if curr winner has better hand, simply proceed to check next player
+        
+        return [player.id for player in winners]
 
     def compare_players(self, first_player, second_player):
-        if first_player.hand_level > second_player.hand_level:
+        if first_player.hand.value > second_player.hand.value:
             return -1
-        elif first_player.hand_level < second_player.hand_level:
+        elif first_player.hand.value < second_player.hand.value:
             return 1
         
-        return 0 # tie
+        # Check high cards on tie
+        both_players_hand = first_player.hand
+        # if both_players_hand != Hand.Pair:
+        #     # check pair high
+        # else: 
+            # check high from all cards
+
+        # Complete tie
+        return 0
 
     def __str__(self):
         output = "----------\n"
