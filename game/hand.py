@@ -1,5 +1,6 @@
 from enum import Enum
 
+# Higher number represents stronger hand
 class Hand(Enum):
     HIGH_CARD = 1
     PAIR = 2

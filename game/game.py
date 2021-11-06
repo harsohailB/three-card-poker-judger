@@ -2,7 +2,6 @@ from deck import Deck
 from hand import Hand
 from player import Player
 
-
 class Game:
     def __init__(self, num_players, player_inputs):
         if num_players == 0:
@@ -35,15 +34,15 @@ class Game:
             return [self.players[0]]
 
         winners = [self.players[0]]
-
+        
         for i in range(1, len(self.players)):
             curr_player = self.players[i]
             temp_winner = self.compare_players(winners[0], curr_player)
-
-            if temp_winner.id == curr_player.id: # curr player has better hand
-                winners = [curr_player]
-            elif temp_winner == None: # tie between curr player and curr winner
+            if temp_winner == None: # tie between curr player and curr winner
                 winners.append(curr_player)
+            elif temp_winner.id == curr_player.id: # curr player has better hand
+                winners = [curr_player]
+            
             # if curr winner has better hand, simply proceed to check next player
         
         return winners
@@ -53,16 +52,13 @@ class Game:
             return first_player
         elif first_player.hand.value < second_player.hand.value:
             return second_player
-        
-        # Check high cards on tie
-        high_card_winner = self.compare_high_cards(first_player, second_player)
 
-        return high_card_winner if high_card_winner else None
+        # Check high cards on tie
+        return self.compare_high_cards(first_player, second_player)
 
     def compare_high_cards(self, first_player, second_player):
-        is_pairs = first_player.hand == Hand.PAIR
-        first_player_card_vals = first_player.get_card_values_for_high_card()
-        second_player_card_vals = second_player.get_card_values_for_high_card()
+        first_player_card_vals = first_player.hand_values
+        second_player_card_vals = second_player.hand_values
 
         for i in range(len(first_player_card_vals)):
             first_val, second_val = first_player_card_vals[i], second_player_card_vals[i]

@@ -2,7 +2,7 @@ from card import Card
 
 class Deck:
     suits = 'hdsc'
-
+    
     def create_cards(suits):
         cards_dict = {}
 
