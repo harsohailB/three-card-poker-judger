@@ -1,5 +1,4 @@
 from deck import Deck
-from hand import Hand
 from player import Player
 
 class Game:
@@ -10,6 +9,7 @@ class Game:
         if num_players != len(player_inputs):
             raise Exception("Mismatch between number of players and lines of players given!")
 
+        self.deck = Deck.instance()
         self.num_players = num_players
         self.players = self.create_players(player_inputs)
 
@@ -23,7 +23,7 @@ class Game:
 
             cards = []
             for card_string in player_cards_info:
-                cards.append(Deck.get_card(card_string))
+                cards.append(self.deck.get_card(card_string))
 
             players.append(Player(player_id, cards))
 

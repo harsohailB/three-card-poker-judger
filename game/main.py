@@ -1,6 +1,4 @@
 import fileinput
-
-from deck import Deck
 from game import Game
 
 def main():
