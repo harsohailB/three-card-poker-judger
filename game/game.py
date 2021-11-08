@@ -2,7 +2,42 @@ from deck import Deck
 from player import Player
 
 class Game:
+    """
+    This class represents a Three Card Poker Game
+
+    Attributes
+    ----------
+    deck : Deck
+        Deck to be used in the game
+    num_players : int
+        Number of players playing in the game
+    players : list[Player]
+        Players playing in the poker game
+
+    Methods
+    -------
+    create_players(player_inputs): list[Player]
+        Creates players for the game using string representation
+        of the players
+    calculate_winner(): list[Player]
+        Calculates the winner(s) of the game
+    compare_players(first_player, second_player): Player
+        Compares to players based on their hands
+    compare_high_cards(first_player, second_player): Player
+        Compares the high cards of two players
+    __str__(): string
+        Creates a string representation of the game object
+    """
+
     def __init__(self, num_players, player_inputs):
+        """
+        Parameters
+        ----------
+        num_players : int
+            Number of players to attend the game
+        players_inputs : list[str]
+            String representions of the players 
+        """
         if num_players == 0:
             raise Exception("No players given as input to the game!")
 
@@ -14,6 +49,15 @@ class Game:
         self.players = self.create_players(player_inputs)
 
     def create_players(self, player_inputs):
+        """
+        Creates players objects using string representations of
+        players
+
+        Parameters
+        ----------
+        player_inputs: list[string]
+            String representations of players
+        """
         players = []
 
         for player_input in player_inputs:
@@ -30,6 +74,10 @@ class Game:
         return players
 
     def calculate_winners(self):
+        """
+        Calculates the winner(s) from the players in the game
+        by comparing their hands
+        """
         if(self.num_players == 1):
             return [self.players[0]]
 
@@ -48,6 +96,18 @@ class Game:
         return winners
 
     def compare_players(self, first_player, second_player):
+        """
+        Compares the hand of two players based on its value such as
+        straight flush, flush, straight, pair, etc. Return the player
+        who won or None to represent a tie.
+
+        Parameters
+        ----------
+        first_player: Player
+            First player to compared
+        second_player: Player
+            Second player to compared
+        """
         if first_player.hand.value > second_player.hand.value:
             return first_player
         elif first_player.hand.value < second_player.hand.value:
@@ -57,6 +117,19 @@ class Game:
         return self.compare_high_cards(first_player, second_player)
 
     def compare_high_cards(self, first_player, second_player):
+        """
+        Compares hands of two players based on the high cards
+        values. Looks at next best card if high cards are the same
+        until a higher card is found one player. If not, returns
+        None to show a tie.
+
+        Parameters
+        ----------
+        first_player: Player
+            First player to compared
+        second_player: Player
+            Second player to compared
+        """
         first_player_card_vals = first_player.hand_values
         second_player_card_vals = second_player.hand_values
 
@@ -70,6 +143,9 @@ class Game:
         return None
 
     def __str__(self):
+        """
+        Constructs a string representation of the game object
+        """
         output = "----------\n"
         output += f"Number of players: {self.num_players}\n"
 
