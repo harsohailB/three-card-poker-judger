@@ -67,8 +67,8 @@ class Game:
 
             cards = []
             for card_string in player_cards_info:
-                cards.append(self.deck.get_card(card_string))
-
+                cards.append(self.deck.deal_card(card_string))
+                
             players.append(Player(player_id, cards))
 
         return players

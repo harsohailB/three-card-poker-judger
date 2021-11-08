@@ -20,6 +20,8 @@ class Deck:
         Singleton constructor of the Deck class
     create_cards()
         Creates cards of the deck
+    deal_card(card)
+        Deals a card to player
     get_card(card_string_rep):
         Returns card object based on string reprentation of the card
     __str__(): string
@@ -28,6 +30,7 @@ class Deck:
     suits = 'hdsc'
     deck_instance = None
     cards = None
+    dealt_cards = set()
 
     def __init__(self):
         """
@@ -61,6 +64,24 @@ class Deck:
                 cards_dict[f"{card.rank}{card.suit}"] = card
 
         self.cards = cards_dict
+    
+    def deal_card(self, card_string_rep):
+        """
+        Deals a card to a player to track that duplicated cards are not 
+        dealt
+
+        Parameters
+        ----------
+        card_string_rep: string
+            String representation of card being dealt
+        """
+        card = self.get_card(card_string_rep)
+        if card in self.dealt_cards:
+            raise Exception(f"Card {str(card)} dealt twice!!!")
+        
+        self.dealt_cards.add(card)
+        return card
+
 
     def get_card(self, card_string_rep):
         """
