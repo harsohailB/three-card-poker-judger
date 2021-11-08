@@ -24,7 +24,6 @@ As the three card game of poker in real life has multiple entities that have the
 
   - Acts as a dealer by being responsible for creating players and assigning cards
   - Responsible for determining the winner through comparing players
-  - Responsible for standard inputs and outputs of program
 
 - Player - `player.py`
 
@@ -37,6 +36,10 @@ As the three card game of poker in real life has multiple entities that have the
 - Deck - `deck.py`
 
   - Holds all the cards that would be in a deck
+
+- Main Driver - `main.py`
+
+  - Entrypoint of the poker game that parses input to create game and output winners
 
 ### Deck - Singleton Design Pattern
 
